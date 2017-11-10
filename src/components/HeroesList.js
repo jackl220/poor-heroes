@@ -1,17 +1,19 @@
 import React, { Component } from "react";
-import "./App.css";
-import Heroes from "./superHeroes";
+import "./HeroesList.css";
 
-class App extends Component {
+import { getHeroes } from "../superheroes.service";
+
+class HeroesList extends Component {
   state = {
     title: "Super Heroes",
-    heroes: superHeroes.Heroes,
     heroes: [],
     selectedHero: {
       id: undefined,
       superhero: ""
     }
   };
+
+  //life kyle hooks. do stuff on initialize
   componentWillMount() {
     getHeroes()
       .then(res => res.json())
@@ -23,6 +25,7 @@ class App extends Component {
       .catch(err => console.log(err));
   }
 
+  //update our super in the array, in place
   handleSubmit = event => {
     event.preventDefault();
     const hero = this.state.selectedHero;
@@ -44,7 +47,7 @@ class App extends Component {
   };
 
   handleSelectedHero = hero => {
-    //this.state.selectedHero = hero;
+    // this.state.selectedHero = hero;
     this.setState({
       selectedHero: hero
     });
@@ -63,8 +66,7 @@ class App extends Component {
     const heroesList = this.state.heroes.map(hero => {
       return (
         <li key={hero.id} onClick={() => this.handleSelectedHero(hero)}>
-          <span className="badge">{hero.id}</span>
-          {hero.superhero}
+          <span className="badge">{hero.id}:</span> {hero.superhero}
         </li>
       );
     });
@@ -91,8 +93,7 @@ class App extends Component {
                     {this.state.selectedHero.id}
                   </div>
                   <div className="form-group">
-                    <label className="controll-label">Hero Name: </label>
-
+                    <label className="control-label">Hero Name: </label>
                     <input
                       className="form-control"
                       type="text"
@@ -103,7 +104,7 @@ class App extends Component {
                   <input
                     className="button btn btn-info"
                     type="submit"
-                    vcalue="submit"
+                    value="submit"
                   />
                 </form>
               </div>
@@ -114,4 +115,5 @@ class App extends Component {
     );
   }
 }
-export default App;
+
+export default HeroesList;
